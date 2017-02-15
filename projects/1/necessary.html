@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Street Art App</title>
+        <style>
+            p, h1 {font-family: Helvetica; }
+            p {font-size:1.5em;line-height:1.5em; margin-left: 24px; margin-right: 24px; font-size: 20px;}
+            pre {font-size: 2em;}
+            .Fail {background-color: red; border: 5px solid blue;}
+            div{border: 0px solid black; margin:10px; border-radius: 5px; background-color: #BBDEFB; width: 50%; padding: 0.5px;}
+            button {padding: 5px; background: #E5EEC1; position: float; border-radius: 5px; border: 1px solid black;}
+            input {padding :5px; background: white; border-radius: 5px; border: 1px solid white; }
+            .navbar-header{padding: 3px; background-color: white; border: 0px; color: #00ffff;}
+            #page{}
+            body {padding-right: 100px; padding-left: 114px; width: 80%; background-image: url("greeting.jpg");}
+            .img-responsive {width: 30%; height: 30%;}
+            #makers {font-size: 15px;}
+            
+        </style>
+    </head>
+    <body>
+        <center>
+        <img src="img/greeting.jpg" class="img-responsive" alt="">
+        
+        <div class="navbar-header">
+            <a class="navbar-brand page-scroll">BE HAPPY!</a>
+        </div>
+        
+        
+    <h1>Street Art In Chicago</h1>
+    
+    <div id="page">
+    <p>A script on this page makes a call to the City of Chicago Data Portal to get the data for various types of street art in Chicago.
+        <br>
+        
+        <br>
+            Artist Name
+            <br>
+            <input id="textBox" type="text" name="Plate Number: " placeholder="Enter Artist Name">
+            <button id="buttonBox" type="button">
+                <i class="material-icons">Search</i>
+            </button>
+            
+    </p>   
+
+    </div>
+    
+    <div id="results"></div>
+    
+    <p></p>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    
+    <script>
+        /*
+            This script retrieves 311 towed vehicle request data for 
+            from the 
+            City of Chicago Data Portal
+            
+            This script doesn't update the DOM.
+        
+        
+        */
+
+    $(function () {
+        
+        // base URL to the towed vehicles data
+        var BaseURL = 'https://data.cityofchicago.org/resource/pt6r-m8yb.json';
+        
+        // optional filters we're appending - status
+        var filters = '?artist=';
+        
+        // full URL
+        var Url = BaseURL + filters;
+        
+        console.log (Url);
+        
+        $("#buttonBox").attr("disabled", true);
+           
+            // jQuery command to retrieve json data
+            
+             $("#textBox").keyup(function(){ 
+                if ($("#textBox").val() == "") {
+                    $("#buttonBox").attr("disabled", true)
+                }
+                else {
+                    $("#buttonBox").attr("disabled", false);
+                }
+    });
+            
+            //more code to come
+            
+            $("#buttonBox").on("click", function() {
+                
+                $("#results").html("");
+                
+                var plateNumber = $("#textBox").val();
+           
+                var urlWithParams = Url + plateNumber;
+                console.log(urlWithParams);
+            
+            //more code to come
+                
+                $.getJSON(urlWithParams)
+                    .done (function (data) {
+                        
+                        console.log(data);
+                        
+                        var numRecords = data.length;
+                        
+                        var message = 
+                            "<h2>Here's what we have:  "
+                            + "</h2>";
+                        
+                        $("#results").append(message);
+                        
+            //more code to come
+            
+                if (numRecords > 0) {
+                            
+                $.each (data , 
+                    function (index, value) {
+                        var html = "<p>" 
+                            + "Park: " + value.park_name
+                            + "<br>" + "Piece Name: " + value.art
+                            + "<br>Artist: " + value.artist
+                            + "<br>Owner: " + value.owner
+                            + "<br><br><a href='https://www.google.com/maps/place/" + value.latitude + value.longitude + " Chicago, IL'>" + "Find the address on Google Maps! </a>"
+                            + "</p>";
+                                   
+                $("#results").append(html);
+
+                    }
+                            );                         
+                        }
+                    });
+                });
+            });
+        
+    </script>
+    <p id=makers>Created by: Edwin Campos, Theo Handley, and Ivan Blanco</p>
+    </center>
+    
+    </body>
+</html>
