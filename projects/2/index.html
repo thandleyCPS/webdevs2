@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>CTA BusTracker</title>
+      <style>
+         p, h1 {font-family: helvetica;}
+         p {font-size:1.5em;line-height:1.5em; margin-left: 24px;}
+         pre {font-size: 5em;}
+         div { border: 10px solid black; margin: 4px; border-radius: 5px; background-color: orange}
+         body {background-color:#ffffff;}
+         .streetButton {color: black; background-color:#a629ff; border: 2px solid black;;}
+      </style>
+      <script src="https://code.jquery.com/jquery-1.210.2.js"></script>
+    </head>
+    
+    <body>
+     
+          <h1>Welcome to the CTA Bus Tracker</h1>
+          
+          <h2 id="westernButton" class="streetButton">49/X49 Western Routes</h2>
+          
+          <h2 id="addisonButton" class = "streetButton">152 Addison Routes</h2>
+          
+          
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+          <script>
+          
+            $(function() {
+              
+              
+              var apiPassThruUrl = "https://polar-garden-75406.herokuapp.com/apiPassThru.php";
+              
+              var apiEndpoint = "http://www.ctabustracker.com/bustime/api/v2/getpredictions";
+              
+              //var findBus = $("find").val();
+              
+              $.ajax({
+                  url: apiPassThruUrl,
+                  dataType: "json",
+                  method: 'GET',
+                  data: {"apiEndpoint": apiEndpoint,
+                          "key" : "H4ijGZQSntWDSzFAwp9Rz8EUd",
+                          "stpid" : "8417,,8195,12527,12569",
+                          "format":"json"}
+                }).done (function (data) {
+                  console.log(data);
+                  
+                $("westernButton").click(function(){
+                    
+                });
+              
+                  $.each(data["bustime-response"]["prd"], function(i,v) {
+                     var displayCountdown = "<p>Arrives in: " + v.prdctdn + " MINUTES</p>";
+                     if (v.prdctdn == "DUE") {
+                         displayCountdown = "<p>Arrives in: " + v.prdctdn + " NOW</p>";
+                     }
+                     if (v.prdctdn == "DLY") {
+                         displayCountdown = "<p>Arrives in: BUS DELAYED</p>";
+                     }
+                     var html = "<div>" + 
+                     "<p>Stop ID: " + v.stpid + "</p>" +
+                     "<p>Route: " + v.rt + "</p>" +
+                     "<p>Bus Stop: " + v.stpnm + "</p>" +
+                     "<p>Direction: " + v.rtdir + "</p>" +
+                     "<p>To: " + v.des + "<p>" +
+                     displayCountdown +
+                     "</div>"
+                     
+                     $("body").append(html);
+                     
+                     
+                    
+                  })
+    
+                });
+            });
+                
+       
+    </script>
+     
+    </body>
+
+</html>
