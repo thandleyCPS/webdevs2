@@ -1,85 +1,104 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-    <head>
+<head>
       <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>CTA BusTracker</title>
+      <title>Bus Tracker vol. 1</title>
+      <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  
       <style>
-         p, h1 {font-family: helvetica;}
-         p {font-size:1.5em;line-height:1.5em; margin-left: 24px;}
-         pre {font-size: 5em;}
-         div { border: 10px solid black; margin: 4px; border-radius: 5px; background-color: orange}
-         body {background-color:#ffffff;}
-         .streetButton {color: black; background-color:#a629ff; border: 2px solid black;;}
-      </style>
-      <script src="https://code.jquery.com/jquery-1.210.2.js"></script>
-    </head>
-    
-    <body>
-     
-          <h1>Welcome to the CTA Bus Tracker</h1>
+          body {
+          background-color:#38ffa9;
+          color:#388eff;
+          font-size:17px;
+          }
+          h3 {
+            color:#b400c1;
+          }
+          h1 {
+            color:#010211;
+          }
+          div {
+            margin:center;
+          }
+    </style>
+  <link rel="manifest" href="/manifest.json">
+  <!-- Add to home screen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Weather PWA">
+  <link rel="apple-touch-icon" href="images/icons/icon-152x152.png">
+<!-- Add to home screen on Windows -->
+ <meta name="msapplication-TileImage" content="images/icons/icon-144x144.png">
+  <meta name="msapplication-TileColor" content="#2F3BA2">
+  
+
+</head>
+<body>
+  
+  <div id="form">
+        <button type="button" id="btnSearch">Track Bus</button>
+    </div>
+
+ 
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+      <script>
+      
+          function busRoutes()
+        {
+      
+          $(function() {
+            
           
-          <h2 id="westernButton" class="streetButton">49/X49 Western Routes</h2>
+            var apiPassThruUrl = "https://polar-garden-75406.herokuapp.com/apiPassThru.php";
+            
+            var apiEndpoint = "http://www.ctabustracker.com/bustime/api/v2/getpredictions";
           
-          <h2 id="addisonButton" class = "streetButton">152 Addison Routes</h2>
-          
-          
-          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-          <script>
-          
-            $(function() {
-              
-              
-              var apiPassThruUrl = "https://polar-garden-75406.herokuapp.com/apiPassThru.php";
-              
-              var apiEndpoint = "http://www.ctabustracker.com/bustime/api/v2/getpredictions";
-              
-              //var findBus = $("find").val();
-              
               $.ajax({
-                  url: apiPassThruUrl,
-                  dataType: "json",
-                  method: 'GET',
-                  data: {"apiEndpoint": apiEndpoint,
-                          "key" : "H4ijGZQSntWDSzFAwp9Rz8EUd",
-                          "stpid" : "8417,,8195,12527,12569",
-                          "format":"json"}
-                }).done (function (data) {
-                  console.log(data);
-                  
-                $("westernButton").click(function(){
+                url: apiPassThruUrl,
+                dataType: "json",
+                method: 'GET',
+                data: {"apiEndpoint": apiEndpoint,
+                        "key" : "LS3UyTLp6gdpyGLENDdVrxmrs",
+                        "format":"json",
+                        "stpid":"8195,8417,12569,12527",
+                        "top":""
+                }
+                
+                
+                
+              }).done (function (data) {
+                console.log(data);
+                $("body").append("<h1>Bus Times</h1>");
+               
+                $.each(data["bustime-response"]["prd"], function(i,v) {
+                   
                     
-                });
-              
-                  $.each(data["bustime-response"]["prd"], function(i,v) {
-                     var displayCountdown = "<p>Arrives in: " + v.prdctdn + " MINUTES</p>";
-                     if (v.prdctdn == "DUE") {
-                         displayCountdown = "<p>Arrives in: " + v.prdctdn + " NOW</p>";
-                     }
-                     if (v.prdctdn == "DLY") {
-                         displayCountdown = "<p>Arrives in: BUS DELAYED</p>";
-                     }
-                     var html = "<div>" + 
-                     "<p>Stop ID: " + v.stpid + "</p>" +
-                     "<p>Route: " + v.rt + "</p>" +
-                     "<p>Bus Stop: " + v.stpnm + "</p>" +
-                     "<p>Direction: " + v.rtdir + "</p>" +
-                     "<p>To: " + v.des + "<p>" +
-                     displayCountdown +
-                     "</div>"
-                     
+                   var html ="<div>"
+                    +"<h3>"
+                    +"Bus Route: "
+                    +"</h3>"
+                    +v.rt
+                    +"<br>"
+                    +"Direction: "
+                    +v.rtdir
+                    +"<br>"
+                    +"Time: "
+                    +v.tmstmp
+                    +"<br>"
+                    +"Predicted Time: "
+                    +v.prdctdn
+                    +"<br>"
+                    +"</div>";
+                    
                      $("body").append(html);
-                     
-                     
-                    
-                  })
-    
+                  });
+  
                 });
             });
-                
-       
-    </script>
-     
-    </body>
-
+          }
+      
+      busRoutes();
+</script>
+ 
+</body>
 </html>
