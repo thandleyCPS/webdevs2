@@ -8,6 +8,7 @@
             p {font-size:1.5em;line-height:1.5em; margin-left: 24px;}
             pre {font-size: 2em;}
             div { border: 1px solid black; margin: 4px; border-radius: 5px; background-color: #ededed}
+            .template {display: none;}
         </style>
     </head>
     <body>
@@ -61,6 +62,8 @@
                         clone.find(".serviceType").text(value.type_of_service_request);
                         clone.find(".number").text(value.service_request_number);
                         clone.find(".status").text(value.status);
+                        
+                        $("#results").append(clone);
                        /*var html = "<div><h1>" + value.type_of_service_request + "</h1>" +
                                     "<p>Status: " + value.status + "<br>" +
                                     "Service request number: " + value.service_request_number +
