@@ -17,7 +17,7 @@
       <header class="mdl-layout__header">
         <div class="mdl-layout__header-row">
           <!-- Title -->
-          <span class="mdl-layout-title">Title</span>
+          <span class="mdl-layout-title">Chicago weather</span>
           <!-- Add spacer, to align navigation to the right -->
           <div class="mdl-layout-spacer"></div>
           <!-- Navigation. We hide it in small screens. -->
@@ -32,16 +32,16 @@
       <div class="mdl-layout__drawer">
         <span class="mdl-layout-title">Title</span>
         <nav class="mdl-navigation">
-          <a id="link1" class="mdl-navigation__link" href="#">Link 1</a>
-          <a id="link2" class="mdl-navigation__link" href="#">Link 2</a>
-          <a id="link3" class="mdl-navigation__link" href="#">Link 3</a>
+          <a id="link1" class="mdl-navigation__link" href="#">Weekly</a>
+          <a id="link2" class="mdl-navigation__link" href="#">Hourly</a>
+          <a id="link3" class="mdl-navigation__link" href="#">Radar</a>
           <a id="link4" class="mdl-navigation__link" href="#">nothings here so dont click it</a>
         </nav>
       </div>
       <main class="mdl-layout__content">
-        <div id="screen1" class="screen page-content">Welcome to your app</div>
-        <div id="screen2" class="screen page-content">Whatever u want can go here</div>
-        <div id="screen3" class="screen page-content">or here</div>
+        <div id="screen1" class="screen page-content">Weekly</div>
+        <div id="screen2" class="screen page-content">Hourly</div>
+        <div id="screen3" class="screen page-content">Radar</div>
         <div id="screen4" class="screen page-content">told you</div>
       </main>
     </div>
@@ -64,6 +64,11 @@
         $("#link3").on("click", function(){;
           $(".screen").hide();
           $("#screen3").show();
+        })
+        
+        $("#link4").on("click", function(){;
+          $(".screen").hide();
+          $("#screen4").show();
         })
         
       })
