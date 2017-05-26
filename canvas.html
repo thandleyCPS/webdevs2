@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<body>
+<p>White Sox</p>
+
+<img id="bestChicagoTeam" width="420" height="277"
+src="http://chicago.whitesox.mlb.com/cws/downloads/sox_pumpkin_stencil2.gif" alt="The Scream">
+
+<p>Canvas:</p>
+
+<canvas id="myCanvas" width="8000" height="8000"
+style="border:1px solid #d3d3d3;">
+
+</canvas>
+
+<script>
+window.onload = function() {
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+    var img = document.getElementById("bestChicagoTeam");
+   ctx.drawImage(img, 1, 10);
+};
+</script>
+
+</body>
+</html>
